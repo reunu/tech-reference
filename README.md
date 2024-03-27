@@ -1,4 +1,4 @@
-# bt-reference
+# Unu Scooter Pro Bluetooth Reference
 Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 
 ## Overview
