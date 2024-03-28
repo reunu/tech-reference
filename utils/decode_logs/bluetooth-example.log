@@ -1,0 +1,275 @@
+
+nRF Connect, 2024-03-26
+unu Scooter (00:00:00:00:00:00)
+V	09:37:03.644	Connecting to 00:00:00:00:00:00...
+D	09:37:03.644	gatt = device.connectGatt(autoConnect = false, TRANSPORT_LE, preferred PHY = LE 1M)
+D	09:37:03.662	[Callback] Connection state changed with status: 0 and new state: CONNECTED (2)
+I	09:37:03.663	Connected to 00:00:00:00:00:00
+D	09:37:03.664	wait(1600ms)
+V	09:37:05.271	Discovering services...
+D	09:37:05.271	gatt.discoverServices()
+D	09:37:05.288	[Callback] Services discovered with status: 0
+I	09:37:05.288	Services discovered
+V	09:37:05.332	Generic Access (0x1800)
+- Device Name [R W] (0x2A00)
+- Appearance [R] (0x2A01)
+- Peripheral Preferred Connection Parameters [R] (0x2A04)
+- Central Address Resolution [R] (0x2AA6)
+Generic Attribute (0x1801)
+- Service Changed [I] (0x2A05)
+   Client Characteristic Configuration (0x2902)
+Unknown Service (9a590000-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [W] (9a590001-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [W] (9a590002-6e67-5d0d-aab9-ad9126b66f91)
+Unknown Service (9a590020-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [N R] (9a590021-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590022-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590023-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+Unknown Service (9a590060-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [N R] (9a590061-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590063-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590064-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590065-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590072-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+Unknown Service (9a590040-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [N R] (9a590041-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590043-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a590044-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+Unknown Service (9a590100-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [R] (9a590101-6e67-5d0d-aab9-ad9126b66f91)
+Unknown Service (9a5900a0-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [N R] (9a5900a1-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+Unknown Service (9a5900e0-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [N R] (9a5900e2-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a5900e3-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a5900e6-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a5900e9-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a5900ee-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a5900ef-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a5900f2-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+- Unknown Characteristic [N R] (9a5900f5-6e67-5d0d-aab9-ad9126b66f91)
+   Client Characteristic Configuration (0x2902)
+Unknown Service (9a59a000-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [R] (9a59a001-6e67-5d0d-aab9-ad9126b66f91)
+Unknown Service (9a59a020-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [R] (9a59a021-6e67-5d0d-aab9-ad9126b66f91)
+- Unknown Characteristic [R] (9a59a022-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:05.374	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 92-DB-3D-00
+A	09:37:05.374	"(0x) 92-DB-3D-00" received
+I	09:37:06.206	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 0B-DA-3D-00
+A	09:37:06.206	"(0x) 0B-DA-3D-00" received
+I	09:37:07.182	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 06-D3-3D-00
+A	09:37:07.182	"(0x) 06-D3-3D-00" received
+I	09:37:08.227	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) C5-D5-3D-00
+A	09:37:08.227	"(0x) C5-D5-3D-00" received
+I	09:37:09.198	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 4C-D7-3D-00
+A	09:37:09.198	"(0x) 4C-D7-3D-00" received
+I	09:37:10.323	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 17-CB-3D-00
+A	09:37:10.323	"(0x) 17-CB-3D-00" received
+V	09:37:10.548	Reading all characteristics...
+V	09:37:10.548	Reading characteristic 00002a00-0000-1000-8000-00805f9b34fb
+D	09:37:10.548	gatt.readCharacteristic(00002a00-0000-1000-8000-00805f9b34fb)
+I	09:37:10.851	Read Response received from 00002a00-0000-1000-8000-00805f9b34fb, value: (0x) 75-6E-75-20-53-63-6F-6F-74-65-72, "unu Scooter"
+A	09:37:10.851	"unu Scooter" received
+V	09:37:10.852	Reading characteristic 00002a01-0000-1000-8000-00805f9b34fb
+D	09:37:10.852	gatt.readCharacteristic(00002a01-0000-1000-8000-00805f9b34fb)
+I	09:37:11.149	Read Response received from 00002a01-0000-1000-8000-00805f9b34fb, value: (0x) 00-00
+A	09:37:11.149	"[0] Unknown" received
+V	09:37:11.165	Reading characteristic 00002a04-0000-1000-8000-00805f9b34fb
+D	09:37:11.165	gatt.readCharacteristic(00002a04-0000-1000-8000-00805f9b34fb)
+I	09:37:11.374	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 1C-28-00-00
+A	09:37:11.374	"(0x) 1C-28-00-00" received
+I	09:37:11.376	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) E8-D7-3D-00
+A	09:37:11.376	"(0x) E8-D7-3D-00" received
+I	09:37:11.376	Read Response received from 00002a04-0000-1000-8000-00805f9b34fb, value: (0x) 10-00-3C-00-00-00-90-01
+A	09:37:11.376	"Connection Interval: 20.00ms - 75.00ms,
+Slave Latency: 0,
+Supervision Timeout Multiplier: 400" received
+V	09:37:11.377	Reading characteristic 00002aa6-0000-1000-8000-00805f9b34fb
+D	09:37:11.377	gatt.readCharacteristic(00002aa6-0000-1000-8000-00805f9b34fb)
+I	09:37:11.523	Read Response received from 00002aa6-0000-1000-8000-00805f9b34fb, value: (0x) 01
+A	09:37:11.523	"Address resolution supported" received
+V	09:37:11.533	Reading characteristic 9a590021-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:11.533	gatt.readCharacteristic(9a590021-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:11.749	Read Response received from 9a590021-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6F-66-66-00-00-00-00-00-00-00-00-00-00-00-00
+A	09:37:11.749	"(0x) 6F-66-66-00-00-00-00-00-00-00-00-00-00-00-00" received
+V	09:37:11.749	Reading characteristic 9a590022-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:11.749	gatt.readCharacteristic(9a590022-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:11.898	Read Response received from 9a590022-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 63-6C-6F-73-65-64-00-00
+A	09:37:11.898	"(0x) 63-6C-6F-73-65-64-00-00" received
+V	09:37:11.914	Reading characteristic 9a590023-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:11.914	gatt.readCharacteristic(9a590023-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:12.197	Read Response received from 9a590023-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6C-6F-63-6B-65-64-00-00-00
+A	09:37:12.197	"(0x) 6C-6F-63-6B-65-64-00-00-00" received
+I	09:37:12.197	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 51-DE-3D-00
+A	09:37:12.197	"(0x) 51-DE-3D-00" received
+V	09:37:12.213	Reading characteristic 9a590061-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:12.213	gatt.readCharacteristic(9a590061-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:12.576	Read Response received from 9a590061-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 50, "P"
+A	09:37:12.576	"(0x) 50, "P"" received
+V	09:37:12.594	Reading characteristic 9a590063-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:12.594	gatt.readCharacteristic(9a590063-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:12.798	Read Response received from 9a590063-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 08-1F-41-01
+A	09:37:12.798	"(0x) 08-1F-41-01" received
+V	09:37:12.815	Reading characteristic 9a590064-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:12.815	gatt.readCharacteristic(9a590064-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:13.246	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6F-D9-3D-00
+A	09:37:13.247	"(0x) 6F-D9-3D-00" received
+I	09:37:13.247	Read Response received from 9a590064-6e67-5d0d-aab9-ad9126b66f91, value: (0x) B0-2F-8D-01
+A	09:37:13.247	"(0x) B0-2F-8D-01" received
+V	09:37:13.260	Reading characteristic 9a590065-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:13.260	gatt.readCharacteristic(9a590065-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:13.474	Read Response received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6F-D9-3D-00
+A	09:37:13.474	"(0x) 6F-D9-3D-00" received
+V	09:37:13.485	Reading characteristic 9a590072-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:13.485	gatt.readCharacteristic(9a590072-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:13.622	Read Response received from 9a590072-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6E-6F-74-2D-63-68-61-72-67-69-6E-67-00
+A	09:37:13.622	"(0x) 6E-6F-74-2D-63-68-61-72-67-69-6E-67-00" received
+V	09:37:13.632	Reading characteristic 9a590041-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:13.632	gatt.readCharacteristic(9a590041-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:13.921	Read Response received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 1C-28-00-00
+A	09:37:13.921	"(0x) 1C-28-00-00" received
+V	09:37:13.921	Reading characteristic 9a590043-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:13.921	gatt.readCharacteristic(9a590043-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:14.224	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) F6-DA-3D-00
+A	09:37:14.224	"(0x) F6-DA-3D-00" received
+I	09:37:14.372	Read Response received from 9a590043-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6E-6F-74-2D-63-68-61-72-67-69-6E-67-00-00-00-00-00-00
+A	09:37:14.372	"(0x) 6E-6F-74-2D-63-68-61-72-67-69-6E-67-00-00-00-00-00-00" received
+V	09:37:14.387	Reading characteristic 9a590044-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:14.387	gatt.readCharacteristic(9a590044-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:14.985	Read Response received from 9a590044-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00-00-00-00
+A	09:37:14.985	"(0x) 00-00-00-00" received
+V	09:37:15.005	Reading characteristic 9a590101-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:15.005	gatt.readCharacteristic(9a590101-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:15.197	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 62-D6-3D-00
+A	09:37:15.197	"(0x) 62-D6-3D-00" received
+I	09:37:15.197	Read Response received from 9a590101-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 63-62-62-00-00-00-00-00
+A	09:37:15.197	"(0x) 63-62-62-00-00-00-00-00" received
+V	09:37:15.197	Reading characteristic 9a5900a1-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:15.198	gatt.readCharacteristic(9a5900a1-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:15.347	Read Response received from 9a5900a1-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 68-69-62-65-72-6E-61-74-69-6E-67-00-00-00-00-00-00-00-00-00-00
+A	09:37:15.347	"(0x) 68-69-62-65-72-6E-61-74-69-6E-67-00-00-00-00-00-00-00-00-00-00" received
+V	09:37:15.347	Reading characteristic 9a5900e2-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:15.347	gatt.readCharacteristic(9a5900e2-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:15.648	Read Response received from 9a5900e2-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 75-6E-6B-6E-6F-77-6E-00
+A	09:37:15.648	"(0x) 75-6E-6B-6E-6F-77-6E-00" received
+V	09:37:15.661	Reading characteristic 9a5900e3-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:15.661	gatt.readCharacteristic(9a5900e3-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:15.874	Read Response received from 9a5900e3-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00
+A	09:37:15.874	"(0x) 00" received
+V	09:37:15.891	Reading characteristic 9a5900e6-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:15.891	gatt.readCharacteristic(9a5900e6-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:16.022	Read Response received from 9a5900e6-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00-00-00-00
+A	09:37:16.022	"(0x) 00-00-00-00" received
+V	09:37:16.034	Reading characteristic 9a5900e9-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:16.034	gatt.readCharacteristic(9a5900e9-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:16.246	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 4D-26-00-00
+A	09:37:16.246	"(0x) 4D-26-00-00" received
+I	09:37:16.246	Read Response received from 9a5900e9-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00-00-00-00
+A	09:37:16.246	"(0x) 00-00-00-00" received
+I	09:37:16.264	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6F-D9-3D-00
+A	09:37:16.264	"(0x) 6F-D9-3D-00" received
+V	09:37:16.265	Reading characteristic 9a5900ee-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:16.265	gatt.readCharacteristic(9a5900ee-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:16.549	Read Response received from 9a5900ee-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 75-6E-6B-6E-6F-77-6E-00
+A	09:37:16.549	"(0x) 75-6E-6B-6E-6F-77-6E-00" received
+V	09:37:16.568	Reading characteristic 9a5900ef-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:16.568	gatt.readCharacteristic(9a5900ef-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:17.149	Read Response received from 9a5900ef-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00
+A	09:37:17.149	"(0x) 00" received
+V	09:37:17.176	Reading characteristic 9a5900f2-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:17.176	gatt.readCharacteristic(9a5900f2-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:17.223	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 02-27-00-00
+A	09:37:17.223	"(0x) 02-27-00-00" received
+I	09:37:17.297	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 62-D6-3D-00
+A	09:37:17.297	"(0x) 62-D6-3D-00" received
+I	09:37:17.371	Read Response received from 9a5900f2-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00-00-00-00
+A	09:37:17.371	"(0x) 00-00-00-00" received
+V	09:37:17.371	Reading characteristic 9a5900f5-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:17.371	gatt.readCharacteristic(9a5900f5-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:17.522	Read Response received from 9a5900f5-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00-00-00-00
+A	09:37:17.522	"(0x) 00-00-00-00" received
+V	09:37:17.533	Reading characteristic 9a59a001-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:17.533	gatt.readCharacteristic(9a59a001-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:17.824	Read Response received from 9a59a001-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 76-31-2E-31-32-2E-30-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
+A	09:37:17.824	"(0x) 76-31-2E-31-32-2E-30-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00" received
+V	09:37:17.840	Reading characteristic 9a59a021-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:17.840	gatt.readCharacteristic(9a59a021-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:17.973	Read Response received from 9a59a021-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00-00-00-00
+A	09:37:17.973	"(0x) 00-00-00-00" received
+V	09:37:17.973	Reading characteristic 9a59a022-6e67-5d0d-aab9-ad9126b66f91
+D	09:37:17.973	gatt.readCharacteristic(9a59a022-6e67-5d0d-aab9-ad9126b66f91)
+I	09:37:18.121	Read Response received from 9a59a022-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 00-00-00-00
+A	09:37:18.121	"(0x) 00-00-00-00" received
+V	09:37:18.130	28 characteristics read
+I	09:37:18.196	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 2A-27-00-00
+A	09:37:18.196	"(0x) 2A-27-00-00" received
+I	09:37:18.196	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 81-E3-3D-00
+A	09:37:18.196	"(0x) 81-E3-3D-00" received
+I	09:37:19.248	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 8F-27-00-00
+A	09:37:19.248	"(0x) 8F-27-00-00" received
+I	09:37:19.249	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 29-D5-3D-00
+A	09:37:19.249	"(0x) 29-D5-3D-00" received
+I	09:37:20.228	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) A3-27-00-00
+A	09:37:20.228	"(0x) A3-27-00-00" received
+I	09:37:20.228	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 4C-D7-3D-00
+A	09:37:20.228	"(0x) 4C-D7-3D-00" received
+I	09:37:21.199	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) CB-27-00-00
+A	09:37:21.199	"(0x) CB-27-00-00" received
+I	09:37:21.199	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 80-D1-3D-00
+A	09:37:21.199	"(0x) 80-D1-3D-00" received
+I	09:37:22.251	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) E0-27-00-00
+A	09:37:22.251	"(0x) E0-27-00-00" received
+I	09:37:22.252	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 92-DB-3D-00
+A	09:37:22.252	"(0x) 92-DB-3D-00" received
+I	09:37:23.229	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 1C-28-00-00
+A	09:37:23.229	"(0x) 1C-28-00-00" received
+I	09:37:23.229	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 6F-D9-3D-00
+A	09:37:23.229	"(0x) 6F-D9-3D-00" received
+I	09:37:24.211	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 08-28-00-00
+A	09:37:24.211	"(0x) 08-28-00-00" received
+I	09:37:24.211	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 80-D1-3D-00
+A	09:37:24.211	"(0x) 80-D1-3D-00" received
+I	09:37:25.324	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 0B-DA-3D-00
+A	09:37:25.324	"(0x) 0B-DA-3D-00" received
+I	09:37:26.300	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) F4-27-00-00
+A	09:37:26.300	"(0x) F4-27-00-00" received
+I	09:37:26.300	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) D3-D8-3D-00
+A	09:37:26.300	"(0x) D3-D8-3D-00" received
+I	09:37:27.196	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 62-D6-3D-00
+A	09:37:27.196	"(0x) 62-D6-3D-00" received
+I	09:37:28.248	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) E0-27-00-00
+A	09:37:28.248	"(0x) E0-27-00-00" received
+I	09:37:28.249	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 1C-D2-3D-00
+A	09:37:28.249	"(0x) 1C-D2-3D-00" received
+I	09:37:29.224	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 08-28-00-00
+A	09:37:29.224	"(0x) 08-28-00-00" received
+I	09:37:29.224	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) B5-DD-3D-00
+A	09:37:29.224	"(0x) B5-DD-3D-00" received
+I	09:37:30.202	Notification received from 9a590041-6e67-5d0d-aab9-ad9126b66f91, value: (0x) F4-27-00-00
+A	09:37:30.202	"(0x) F4-27-00-00" received
+I	09:37:30.203	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) D3-D8-3D-00
+A	09:37:30.203	"(0x) D3-D8-3D-00" received
+I	09:37:31.247	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 3F-D4-3D-00
+A	09:37:31.247	"(0x) 3F-D4-3D-00" received
+I	09:37:32.297	Notification received from 9a590065-6e67-5d0d-aab9-ad9126b66f91, value: (0x) 0B-DA-3D-00
+A	09:37:32.297	"(0x) 0B-DA-3D-00" received
