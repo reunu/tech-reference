@@ -12,7 +12,7 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 | 9a590040-6e67-5d0d-aab9-ad9126b66f91 | 9a590041-6e67-5d0d-aab9-ad9126b66f91 | int 00000-15000mV | AUX battery voltage |
 |                                      | 9a590043-6e67-5d0d-aab9-ad9126b66f91 | "absorption-charge"<br>"not-charging"<br>"float-charge"<br>"bulk-charge"<br>(Probably more) | AUX battery charge status |
 |                                      | 9a590044-6e67-5d0d-aab9-ad9126b66f91 | int 0-100% (0%, 25%, 50%, 75%, 100%) | AUX battery charge level in 25% steps |
-| 9a590060-6e67-5d0d-aab9-ad9126b66f91 | 9a590061-6e67-5d0d-aab9-ad9126b66f91 | int 0-100% | CB battery charge level |
+| 9a590060-6e67-5d0d-aab9-ad9126b66f91 | 9a590061-6e67-5d0d-aab9-ad9126b66f91 | int 0-100% | CB battery charge level in 1% steps |
 |                                      | 9a590063-6e67-5d0d-aab9-ad9126b66f91 | int | CB battery remaining capacity (health?) |
 |                                      | 9a590064-6e67-5d0d-aab9-ad9126b66f91 | int | CB battery full capacity |
 |                                      | 9a590065-6e67-5d0d-aab9-ad9126b66f91 | int | CB battery cell voltage in mV |
