@@ -21,6 +21,8 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 |                                      | 9a590101-6e67-5d0d-aab9-ad9126b66f91 | "cbb"<br>"aux"<br>(Probably more) | Battery type. TBD |
 | TBD                                  | 9a5900a1-6e67-5d0d-aab9-ad9126b66f91 | "hibernating"<br>"booting"<br>"running"<br>(Probably more) | TBD |
 | TBD                                  | 9a5900e2-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle"<br>(Probably more) | TBD |
+| TBD                                  | 9a5900e6-6e67-5d0d-aab9-ad9126b66f91 | int | Main battery charging cycle count |
+| TBD                                  | 9a5900e9-6e67-5d0d-aab9-ad9126b66f91 | int 0-100% | Main battery charge level in 1% steps |
 | TBD                                  | 9a5900ee-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>(Probably more) | TBD |
 | TBD                                  | 9a59a001-6e67-5d0d-aab9-ad9126b66f91 | "v1.12.0"<br>(Probably more) | Scooter version. TBD |
 
