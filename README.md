@@ -19,7 +19,7 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 | 9a590070-6e67-5d0d-aab9-ad9126b66f91 | 9a590072-6e67-5d0d-aab9-ad9126b66f91 | "not-charging"<br>"charging"<br>(Probably more) | CB battery charge status |
 | 9a590100-6e67-5d0d-aab9-ad9126b66f91 |  |  | TBD. Could very well be related to GPS |
 |                                      | 9a590101-6e67-5d0d-aab9-ad9126b66f91 | "cbb"<br>"aux"<br>(Probably more) | Battery type. TBD |
-| TBD                                  | 9a5900a1-6e67-5d0d-aab9-ad9126b66f91 | "hibernating"<br>"booting"<br>"running"<br>(Probably more) | TBD |
+| TBD                                  | 9a5900a1-6e67-5d0d-aab9-ad9126b66f91 | "hibernating"<br>"booting"<br>"running"<br>"suspending"<br>"hibernating-imminent"<br>(Probably more) | TBD |
 | TBD                                  | 9a5900e2-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle"<br>(Probably more) | TBD |
 | TBD                                  | 9a5900e6-6e67-5d0d-aab9-ad9126b66f91 | int | Main battery charging cycle count |
 | TBD                                  | 9a5900e9-6e67-5d0d-aab9-ad9126b66f91 | int 0-100% | Main battery charge level in 1% steps |
