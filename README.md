@@ -28,7 +28,7 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 |                                      | 9a5900ef-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
 |                                      | 9a5900f2-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
 |                                      | 9a5900f5-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
-| 9a59a000-6e67-5d0d-aab9-ad9126b66f91 | 9a59a001-6e67-5d0d-aab9-ad9126b66f91 | "v1.12.0"<br>(Probably more) | Scooter version. TBD |
+| 9a59a000-6e67-5d0d-aab9-ad9126b66f91 | 9a59a001-6e67-5d0d-aab9-ad9126b66f91 | "v1.12.0"<br>(Probably more) | nRF version |
 | 9a59a020-6e67-5d0d-aab9-ad9126b66f91 | 9a59a021-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
 |                                      | 9a59a022-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
 
