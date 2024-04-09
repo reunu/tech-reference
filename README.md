@@ -6,7 +6,7 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 | **Service** | **Characteristic** | **Values** | **Description** |
 |---|---|---|---|
 | 9a590000-6e67-5d0d-aab9-ad9126b66f91 | 9a590001-6e67-5d0d-aab9-ad9126b66f91 | "scooter:state lock"<br>"scooter:state unlock"<br>"scooter:seatbox open"<br>"scooter:blinker right"<br>"scooter:blinker left"<br>"scooter:blinker both"<br>"scooter:blinker off" | Input control channel. Write ASCII-encoded values into this characteristic to control the lock, seatbox lock and blinker |
-|                                      | 9a590002-6e67-5d0d-aab9-ad9126b66f91 | Input control channel. Purpose: TBD |
+|                                      | 9a590002-6e67-5d0d-aab9-ad9126b66f91 | "hibernate"<br>"wakeup" | Input control channel for hibernation commands. Only works in corresponding scooter power states: "hibernating", "running", "stand-by".  |
 | 9a590020-6e67-5d0d-aab9-ad9126b66f91 | 9a590021-6e67-5d0d-aab9-ad9126b66f91 | "stand-by"<br>"off"<br>"parked"<br>"shutting-down"<br>"ready-to-drive"<br>(Probably more) | Status of the scooter |
 |                                      | 9a590022-6e67-5d0d-aab9-ad9126b66f91 | "open"<br>"closed" | Status of the seat box |
 |                                      | 9a590023-6e67-5d0d-aab9-ad9126b66f91 | "locked"<br>"unlocked" | Handlebar lock status |
@@ -19,7 +19,7 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 |                                      | 9a590065-6e67-5d0d-aab9-ad9126b66f91 | int | CB battery cell voltage in mV |
 |                                      | 9a590072-6e67-5d0d-aab9-ad9126b66f91 | "not-charging"<br>"charging"<br>(Probably more) | CB battery charge status |
 | 9a590100-6e67-5d0d-aab9-ad9126b66f91 | 9a590101-6e67-5d0d-aab9-ad9126b66f91 | "cbb"<br>"aux"<br>(Probably more) | Battery type. TBD |
-| 9a5900a0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900a1-6e67-5d0d-aab9-ad9126b66f91 | "hibernating"<br>"booting"<br>"running"<br>"suspending"<br>"hibernating-imminent"<br>(Probably more) | TBD |
+| 9a5900a0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900a1-6e67-5d0d-aab9-ad9126b66f91 | "hibernating"<br>"booting"<br>"running"<br>"suspending"<br>"hibernating-imminent"<br>(Probably more) | Power state |
 | 9a5900e0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900e2-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle"<br>(Probably more) | TBD |
 |                                      | 9a5900e3-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
 |                                      | 9a5900e6-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
