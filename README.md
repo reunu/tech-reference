@@ -20,14 +20,14 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 |                                      | 9a590072-6e67-5d0d-aab9-ad9126b66f91 | "not-charging"<br>"charging"<br>(Probably more) | CB battery charge status |
 | 9a590100-6e67-5d0d-aab9-ad9126b66f91 | 9a590101-6e67-5d0d-aab9-ad9126b66f91 | "cbb"<br>"aux"<br>(Probably more) | Battery type. TBD |
 | 9a5900a0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900a1-6e67-5d0d-aab9-ad9126b66f91 | "hibernating"<br>"booting"<br>"running"<br>"suspending"<br>"hibernating-imminent"<br>(Probably more) | Power state |
-| 9a5900e0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900e2-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle"<br>(Probably more) | TBD |
-|                                      | 9a5900e3-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
-|                                      | 9a5900e6-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
-|                                      | 9a5900e9-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
-|                                      | 9a5900ee-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>(Probably more) | TBD |
-|                                      | 9a5900ef-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
-|                                      | 9a5900f2-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
-|                                      | 9a5900f5-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
+| 9a5900e0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900e2-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle" | Primary battery state |
+|                                      | 9a5900e3-6e67-5d0d-aab9-ad9126b66f91 | 1 / 0 | Primary battery presence indicator |
+|                                      | 9a5900e6-6e67-5d0d-aab9-ad9126b66f91 | int | Primary battery cycle count |
+|                                      | 9a5900e9-6e67-5d0d-aab9-ad9126b66f91 | 0-100% | Primary battery state of charge |
+|                                      | 9a5900ee-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle" | Secondary battery state |
+|                                      | 9a5900ef-6e67-5d0d-aab9-ad9126b66f91 | 1 / 0 | Secondary battery presence indicator |
+|                                      | 9a5900f2-6e67-5d0d-aab9-ad9126b66f91 | int | Secondary battery cycle count |
+|                                      | 9a5900f5-6e67-5d0d-aab9-ad9126b66f91 | 0-100% | Secondary battery state of charge |
 | 9a59a000-6e67-5d0d-aab9-ad9126b66f91 | 9a59a001-6e67-5d0d-aab9-ad9126b66f91 | "v1.12.0"<br>(Probably more) | nRF version |
 | 9a59a020-6e67-5d0d-aab9-ad9126b66f91 | 9a59a021-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
 |                                      | 9a59a022-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
