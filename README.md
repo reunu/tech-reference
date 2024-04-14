@@ -43,7 +43,7 @@ stateDiagram-v2
     Ready --> Parked: stand down
     Shutting_Down --> Hibernating_Imminent: after ~5s
     Stand_By --> Hibernating_Imminent: hibernate
-    Hibernating_Imminent --> Parked: wakeup
+    Hibernating_Imminent --> Parked: unlock
     Hibernating_Imminent --> Hibernating: after >20s
     Hibernating --> Booting: wakeup
     Booting --> Stand_By: after ~5s
