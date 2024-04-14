@@ -33,3 +33,19 @@ Documenting Bluetooth services and characteristics of the Unu Scooter Pro
 |                                      | 9a59a022-6e67-5d0d-aab9-ad9126b66f91 | TBD | TBD |
 
 TBD = to be defined / verified
+
+## Scooter states
+
+```mermaid
+stateDiagram-v2
+    Parked --> Shutting_Down: hibernate
+    Parked --> Ready: stand up
+    Ready --> Parked: stand down
+    Shutting_Down --> Hibernating_Imminent: after ~5s
+    Stand_By --> Hibernating_Imminent: hibernate
+    Hibernating_Imminent --> Parked: wakeup
+    Hibernating_Imminent --> Hibernating: after >20s
+    Hibernating --> Booting: wakeup
+    Booting --> Stand_By: after ~5s
+    Stand_By --> Parked: unlock
+```
