@@ -1,13 +1,6 @@
 # Redis Reference
+
 Documenting Redis DB
-
-## Overview
-
-| **Service** | **Characteristic** | **Values** | **Description** |
-|---|---|---|---|
-| TBD | TBD | TBD | TBD |
-
-TBD = to be defined / verified
 
 ## Redis instance
 
