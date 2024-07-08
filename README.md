@@ -17,6 +17,8 @@ stateDiagram-v2
     Hibernating --> Booting: wakeup
     Booting --> Stand_By: after ~5s
     Stand_By --> Parked: unlock
+    Parked --> Stand_By: lock
+    
 ```
 
 ## Services
