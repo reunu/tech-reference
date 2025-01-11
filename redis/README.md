@@ -1,100 +1,74 @@
-# Redis Reference
+# Redis Interface Documentation
 
-Documenting Redis DB
+## Connection Details
 
-## Redis instance
+The scooter runs a Redis instance on the MDB accessible at:
+- Host: 192.168.7.1  
+- Port: 6379
 
-You can connect to the [redis](https://redis.io) instance via:
-
-| **IP**      | **Port** |
-|-------------|----------|
-| 192.168.7.1 | 6379     |
-
-You can use the following command locally:
-
-```
+Local connection command:
+```bash
 redis-cli -h 192.168.7.1 -p 6379
 ```
 
-## Keys
+## Key Structure
 
+The Redis database uses hash sets for system state storage:
+
+### Vehicle State (`vehicle`)
 ```
- 1) "system"
- 2) "events:pointers"
- 3) "power-manager"
- 4) "dashboard"
- 5) "ota"
- 6) "aux-battery"
- 7) "power-mux"
- 8) "cb-battery"
- 9) "power-manager:busy-services"
-10) "navigation"
-11) "settings"
-12) "events:faults"
-13) "engine-ecu"
-14) "battery:0"
-15) "ble"
-16) "internet"
-17) "vehicle"
-18) "battery:1"
+hgetall vehicle
 ```
 
-## Key description
+| Field | Values | Description |
+|-------|---------|------------|
+| handlebar:position | "on-place" | Handlebar position |
+| handlebar:lock-sensor | "locked"/"unlocked" | Handlebar lock state |
+| main-power | "on"/"off" | Main power state |
+| kickstand | "up"/"down" | Side stand position |
+| seatbox:button | "on"/"off" | Seat open button state |
+| seatbox:lock | "open"/"closed" | Seat lock state |
+| horn:button | "on"/"off" | Horn button state |
+| brake:left | "on"/"off" | Left brake state |
+| brake:right | "on"/"off" | Right brake state |
+| blinker:switch | "left"/"right"/"both"/"off" | Blinker switch position |
+| blinker:state | "on"/"off" | Blinker active state |
+| state | "stand-by"/"ready" | Vehicle operating state |
 
-### Vehicle
-
+### Engine ECU (`engine-ecu`)
 ```
-> hgetall vehicle
- 1) "handlebar:position"
- 2) "on-place"
- 3) "handlebar:lock-sensor"
- 4) "locked"
- 5) "main-power"
- 6) "on"
- 7) "kickstand"
- 8) "down"
- 9) "seatbox:button"
-10) "off"
-11) "seatbox:lock"
-12) "closed"
-13) "horn:button"
-14) "off"
-15) "brake:left"
-16) "off"
-17) "brake:right"
-18) "off"
-19) "blinker:switch"
-20) "off"
-21) "state"
-22) "stand-by"
-23) "blinker:state"
-24) "off"
+hgetall engine-ecu
 ```
 
-## ecu-engine
+| Field | Type | Description |
+|-------|------|-------------|
+| state | "on"/"off" | ECU power state |
+| kers-reason-off | string | Reason KERS is disabled |
+| kers | "on"/"off" | KERS active state |
+| motor:voltage | integer (mV) | Motor voltage |
+| motor:current | integer (mA) | Motor current |
+| rpm | integer | Motor RPM |
+| speed | integer (km/h) | Vehicle speed |
+| throttle | "on"/"off" | Throttle state |
+| fw-version | hex string | ECU firmware version |
+| odometer | integer | Total distance |
+| temperature | integer (°C) | ECU temperature |
 
-```
-> hgetall engine-ecu
- 1) "state"
- 2) "off"
- 3) "kers-reason-off"
- 4) "none"
- 5) "kers"
- 6) "off"
- 7) "motor:voltage"
- 8) "55770"
- 9) "motor:current"
-10) "0"
-11) "rpm"
-12) "0"
-13) "speed"
-14) "0"
-15) "throttle"
-16) "off"
-17) "fw-version"
-18) "0445400C"
-19) "odometer"
-20) "1002400"
-21) "temperature"
-22) "24"
-```
+### Other Keys
+
+- `system` - System status
+- `events:pointers` - Event tracking
+- `power-manager` - Power management state
+- `dashboard` - Dashboard state
+- `ota` - Over-the-air update status
+- `aux-battery` - Auxiliary battery data
+- `power-mux` - Power multiplexing state
+- `cb-battery` - Connectivity battery data
+- `power-manager:busy-services` - Power management locks
+- `navigation` - Navigation state
+- `settings` - System settings
+- `events:faults` - Fault event log
+- `battery:0` - Primary battery data
+- `battery:1` - Secondary battery data
+- `ble` - Bluetooth state
+- `internet` - Internet connectivity state
