@@ -1,35 +1,99 @@
-# Bluetooth Reference
-Documenting Bluetooth services and characteristics of the Unu Scooter Pro
+# Bluetooth Interface Documentation
 
-## Overview
+## Service Overview
 
-| **Service** | **Characteristic** | **Values** | **Description** |
-|---|---|---|---|
-| 9a590000-6e67-5d0d-aab9-ad9126b66f91 | 9a590001-6e67-5d0d-aab9-ad9126b66f91 | "scooter:state lock"<br>"scooter:state unlock"<br>"scooter:seatbox open"<br>"scooter:blinker right"<br>"scooter:blinker left"<br>"scooter:blinker both"<br>"scooter:blinker off" | Input control channel. Write ASCII-encoded values into this characteristic to control the lock, seatbox lock and blinker |
-|                                      | 9a590002-6e67-5d0d-aab9-ad9126b66f91 | "hibernate"<br>"wakeup" | Input control channel for hibernation commands. Only works in corresponding scooter power states: "hibernating", "running", "stand-by".  |
-| 9a590020-6e67-5d0d-aab9-ad9126b66f91 | 9a590021-6e67-5d0d-aab9-ad9126b66f91 | "stand-by"<br>"off"<br>"parked"<br>"shutting-down"<br>"ready-to-drive"<br>"updating"<br> | Status of the scooter |
-|                                      | 9a590022-6e67-5d0d-aab9-ad9126b66f91 | "open"<br>"closed"<br>"unknown" | Status of the seat box |
-|                                      | 9a590023-6e67-5d0d-aab9-ad9126b66f91 | "locked"<br>"unlocked" | Handlebar lock status |
-| 9a590040-6e67-5d0d-aab9-ad9126b66f91 | 9a590041-6e67-5d0d-aab9-ad9126b66f91 | uint32 00000-15000mV | AUX battery voltage |
-|                                      | 9a590043-6e67-5d0d-aab9-ad9126b66f91 | "absorption-charge"<br>"not-charging"<br>"float-charge"<br>"bulk-charge" | AUX battery charge status |
-|                                      | 9a590044-6e67-5d0d-aab9-ad9126b66f91 | uint32 0-100% (0, 25, 50, 75, 100) | AUX battery charge level in 25% steps |
-| 9a590060-6e67-5d0d-aab9-ad9126b66f91 | 9a590061-6e67-5d0d-aab9-ad9126b66f91 | uint8 0-100% | CB battery charge level in 1% steps |
-|                                      | 9a590063-6e67-5d0d-aab9-ad9126b66f91 | int | CB battery remaining capacity (health?) |
-|                                      | 9a590064-6e67-5d0d-aab9-ad9126b66f91 | int | CB battery full capacity |
-|                                      | 9a590065-6e67-5d0d-aab9-ad9126b66f91 | int | CB battery cell voltage in mV |
-|                                      | 9a590072-6e67-5d0d-aab9-ad9126b66f91 | "not-charging"<br>"charging"<br>"unknown" | CB battery charge status |
-| 9a590100-6e67-5d0d-aab9-ad9126b66f91 | 9a590101-6e67-5d0d-aab9-ad9126b66f91 | "cbb"<br>"aux"<br>(Probably more) | Battery type. TBD |
-| 9a5900a0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900a1-6e67-5d0d-aab9-ad9126b66f91 | "booting"<br>"running"<br>"suspending"<br>"suspending-imminent"<br>"hibernating-imminent"<br>"hibernating"<br> | Power state |
-| 9a5900e0-6e67-5d0d-aab9-ad9126b66f91 | 9a5900e2-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle" | Primary battery state |
-|                                      | 9a5900e3-6e67-5d0d-aab9-ad9126b66f91 | 1 / 0 | Primary battery presence indicator |
-|                                      | 9a5900e6-6e67-5d0d-aab9-ad9126b66f91 | uint32 | Primary battery cycle count |
-|                                      | 9a5900e9-6e67-5d0d-aab9-ad9126b66f91 | uint32 0-100% | Primary battery state of charge |
-|                                      | 9a5900ee-6e67-5d0d-aab9-ad9126b66f91 | "unknown"<br>"asleep"<br>"active"<br>"idle" | Secondary battery state |
-|                                      | 9a5900ef-6e67-5d0d-aab9-ad9126b66f91 | 1 / 0 | Secondary battery presence indicator |
-|                                      | 9a5900f2-6e67-5d0d-aab9-ad9126b66f91 | uint32 | Secondary battery cycle count |
-|                                      | 9a5900f5-6e67-5d0d-aab9-ad9126b66f91 | uint32 0-100% | Secondary battery state of charge |
-| 9a59a000-6e67-5d0d-aab9-ad9126b66f91 | 9a59a001-6e67-5d0d-aab9-ad9126b66f91 | "v1.12.0"<br>(Probably more) | nRF version |
-| 9a59a020-6e67-5d0d-aab9-ad9126b66f91 | 9a59a021-6e67-5d0d-aab9-ad9126b66f91 | uint32 - [Reference](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fps_nrf52840%2Fpower.html&anchor=register.RESETREAS) | Reset reason |
-|                                      | 9a59a022-6e67-5d0d-aab9-ad9126b66f91 | uint32 | Reset count |
+The unu Scooter Pro exposes several Bluetooth LE services for control and monitoring. All services use the base UUID: `xxxx-6e67-5d0d-aab9-ad9126b66f91`
 
-TBD = to be defined / verified
+### Control Service (9a590000)
+
+Primary control interface for scooter functions
+
+| Characteristic | Description | Values |
+|---------------|-------------|---------|
+| 9a590001 | Control Input | - "scooter:state lock"<br>- "scooter:state unlock"<br>- "scooter:seatbox open"<br>- "scooter:blinker right"<br>- "scooter:blinker left"<br>- "scooter:blinker both"<br>- "scooter:blinker off" |
+| 9a590002 | Power Control | - "hibernate"<br>- "wakeup" |
+
+### Status Service (9a590020)
+
+Provides scooter state information
+
+| Characteristic | Description | Values |
+|---------------|-------------|---------|
+| 9a590021 | Operating State | - "stand-by"<br>- "off"<br>- "parked"<br>- "shutting-down"<br>- "ready-to-drive"<br>- "updating" |
+| 9a590022 | Seatbox State | - "open"<br>- "closed"<br>- "unknown" |
+| 9a590023 | Handlebar Lock | - "locked"<br>- "unlocked" |
+
+### Battery Service (9a590040)
+
+Auxiliary battery monitoring
+
+| Characteristic | Description | Values |
+|---------------|-------------|---------|
+| 9a590041 | AUX Voltage | 0-15000mV |
+| 9a590043 | Charge Status | - "absorption-charge"<br>- "not-charging"<br>- "float-charge"<br>- "bulk-charge" |
+| 9a590044 | Charge Level | 0-100% in 25% steps |
+
+### Connectivity Battery Service (9a590060)
+
+CBB status monitoring
+
+| Characteristic | Description | Values |
+|---------------|-------------|---------|
+| 9a590061 | Charge Level | 0-100% |
+| 9a590063 | Remaining Capacity | Integer |
+| 9a590064 | Full Capacity | Integer |
+| 9a590065 | Cell Voltage | mV |
+| 9a590072 | Charge Status | - "not-charging"<br>- "charging"<br>- "unknown" |
+
+### Power State Service (9a5900a0)
+
+System power state monitoring
+
+| Characteristic | Description | Values |
+|---------------|-------------|---------|
+| 9a5900a1 | Power State | - "booting"<br>- "running"<br>- "suspending"<br>- "suspending-imminent"<br>- "hibernating-imminent"<br>- "hibernating" |
+
+(cf. [State Diagram](../states/README.md))
+
+### Main Battery Service (9a5900e0)
+
+Primary battery monitoring
+
+| Characteristic | Description | Values |
+|---------------|-------------|---------|
+| 9a5900e2 | Primary State | - "unknown"<br>- "asleep"<br>- "active"<br>- "idle" |
+| 9a5900e3 | Primary Present | 0/1 |
+| 9a5900e6 | Primary Cycles | Integer |
+| 9a5900e9 | Primary SoC | 0-100% |
+| 9a5900ee | Secondary State | - "unknown"<br>- "asleep"<br>- "active"<br>- "idle" |
+| 9a5900ef | Secondary Present | 0/1 |
+| 9a5900f2 | Secondary Cycles | Integer |
+| 9a5900f5 | Secondary SoC | 0-100% |
+
+### System Info Service (9a59a000)
+
+| Characteristic | Description | Values |
+|---------------|-------------|---------|
+| 9a59a001 | nRF Version | Version string (e.g. "v1.12.0") |
+| 9a59a021 | Reset Reason | Nordic RESETREAS register value (see below) |
+| 9a59a022 | Reset Count | Integer |
+
+#### RESETREAS (Reset Reason Register)
+
+Reset reason register. Cumulative unless cleared. Fields are cleared by writing '1'. If no reset sources are flagged, indicates reset from on-chip reset generator (power-on-reset or brownout reset).
+
+| Field   | Bit(s) | Access | Description | Value | Meaning |
+|---------|---------|--------|-------------|--------|---------|
+| RESETPIN | 0 | RW | Reset from pin-reset detected | 0<br>1 | Not detected<br>Detected |
+| DOG | 1 | RW | Reset from watchdog detected | 0<br>1 | Not detected<br>Detected |
+| SREQ | 2 | RW | Reset from soft reset detected | 0<br>1 | Not detected<br>Detected |
+| LOCKUP | 3 | RW | Reset from CPU lock-up detected | 0<br>1 | Not detected<br>Detected |
+| OFF | 16 | RW | Reset due to wake up from System OFF mode (DETECT signal from GPIO) | 0<br>1 | Not detected<br>Detected |
+| LPCOMP | 17 | RW | Reset due to wake up from System OFF mode (ANADETECT signal from LPCOMP) | 0<br>1 | Not detected<br>Detected |
+| DIF | 18 | RW | Reset due to wake up from System OFF mode (debug interface mode entry) | 0<br>1 | Not detected<br>Detected |
+| NFC | 19 | RW | Reset due to wake up from System OFF mode (NFC field detect) | 0<br>1 | Not detected<br>Detected |
+| VBUS | 20 | RW | Reset due to wake up from System OFF mode (VBUS rising into valid range) | 0<br>1 | Not detected<br>Detected |
+
+Register layout has:
+- Low bits (0-3): Basic reset sources
+- High bits (16-20): System OFF wake-up sources
