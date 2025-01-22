@@ -13,7 +13,9 @@ redis-cli -h 192.168.7.1 -p 6379
 
 ## Key Structure
 
-The Redis database uses hash sets for system state storage. All fields default to empty strings ("") when data is unavailable unless otherwise noted. Here's a comprehensive list of all available keys and their fields:
+The Redis database uses hash sets for system state storage. All fields default to empty strings ("") when data is unavailable unless otherwise noted.
+
+For potential values, also see the [Bluetooth reference](../bluetooth/README.md).
 
 ### Vehicle State (`vehicle`)
 ```
@@ -33,7 +35,7 @@ hgetall vehicle
 | brake:right | "on"/"off" | Right brake state | "off" |
 | blinker:switch | "left"/"right"/"both"/"off" | Blinker switch position | "off" |
 | blinker:state | "on"/"off" | Blinker active state | "off" |
-| state | "stand-by"/"ready-to-drive" | Vehicle operating state | "stand-by" |
+| state | "stand-by"/"ready-to-drive"/"off"/"parked"/ | Vehicle operating state | "stand-by" |
 
 ### Engine ECU (`engine-ecu`)
 ```
