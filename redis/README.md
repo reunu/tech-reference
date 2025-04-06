@@ -172,6 +172,8 @@ hgetall dashboard
 | mode | string | Current display mode | "speedometer" |
 | serial-number | string | Dashboard serial number | "379999993" |
 
+See [Dashboard](../dashboard/README.md).
+
 ### Bluetooth Interface (`ble`)
 ```
 hgetall ble
