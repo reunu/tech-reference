@@ -12,7 +12,7 @@ The dashboard operates in three primary modes, controlled via the `dashboard mod
 |------|-------------|------------|
 | speedometer | Default mode showing speed and status | Default at startup |
 | navigation | Map view with route guidance | Activated when navigation starts |
-| debug | Development diagnostics | Activated by setting `HSET dashboard mode debug` |
+| debug | Development diagnostics | `LPUSH scooter:dashboard-mode debug` |
 
 **Note:** The navigation-related functionality is not normally accessible and will not be triggered during normal use, but there is vestigial code from an abandoned implementation by unu. Information about navigation functionality is derived from the remaining code in the binary as well as an implementation demo video uploaded by unu's development partner.
 
@@ -31,9 +31,9 @@ The debug mode provides a development and diagnostic interface that is not inten
 ### Activating Debug Mode
 
 Debug mode can be activated by:
-1. Setting the Redis key: `HSET dashboard mode debug`
+1. Setting the Redis key: `LPUSH scooter:dashboard-mode debug`
 2. The dashboard will switch to debug view immediately
-3. Debug data is stored in a Redis sorted set with timestamps as scores
+3. Debug data is stored in a Redis sorted set
 
 ### Debug Data Structure
 
@@ -42,7 +42,14 @@ The debug data is stored in a Redis sorted set:
 ZRANGE dashboard:debug 0 -1 WITHSCORES
 ```
 
-Each entry contains a diagnostic message with a timestamp score for chronological ordering.
+The values are other Redis keys to be displayed on the screen, e.g.
+
+```
+ZADD dashboard:debug 0 "aux-battery charge-status"
+```
+
+would show the charge-status of the 12V AUX battery on the screen.
+The scores indicate the priority. As many values as possible are fit on the screen, based on their score.
 
 ## UI Components
 
