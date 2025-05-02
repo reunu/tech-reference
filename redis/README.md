@@ -24,7 +24,7 @@ hgetall vehicle
 
 | Field | Type | Description | Example |
 |-------|---------|------------|---------|
-| handlebar:position | "on-place" | Handlebar position | "on-place" |
+| handlebar:position | "on-place"/"off-place" | Handlebar position | "on-place" |
 | handlebar:lock-sensor | "locked"/"unlocked" | Handlebar lock state | "unlocked" |
 | main-power | "on"/"off" | Main power state | "off" |
 | kickstand | "up"/"down" | Side stand position | "down" |
@@ -35,7 +35,7 @@ hgetall vehicle
 | brake:right | "on"/"off" | Right brake state | "off" |
 | blinker:switch | "left"/"right"/"both"/"off" | Blinker switch position | "off" |
 | blinker:state | "on"/"off" | Blinker active state | "off" |
-| state | "stand-by"/"ready-to-drive"/"off"/"parked"/ | Vehicle operating state | "stand-by" |
+| state | "stand-by"/"ready-to-drive"/"off"/"parked"/"booting"/"shutting-down"/"hibernating"/"hibernating-imminent"/"suspending"/"suspending-imminent"/"updating" | Vehicle operating state | "stand-by" |
 
 ### Engine ECU (`engine-ecu`)
 ```
