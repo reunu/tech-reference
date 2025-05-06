@@ -23,7 +23,7 @@ stateDiagram-v2
 - **Hibernating**
   - Lowest power state
   - Only wake-up circuitry active
-  - Can be woken via NFC field detection or by pulling both brakes for 10s
+  - Can be woken by pulling both brakes for 10s (monitored by nRF chip)
 
 - **Booting**
   - Transitional state during system startup
