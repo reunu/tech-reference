@@ -183,6 +183,54 @@ hgetall ble
 |-------|------|-------------|----------|
 | mac-address | string | Bluetooth MAC address (lowercase with colons) | "ce:df:f6:c0:ff:ee" |
 | status | string | Connection status | "disconnected" |
+| pin-code | string | Pairing PIN code (temporary, removed after pairing) | "123456" |
+
+#### Bluetooth Commands
+
+The Bluetooth service accepts commands via the `scooter:bluetooth` Redis list. Commands are sent as strings:
+
+```bash
+# Send a command to the Bluetooth service
+redis-cli -h 192.168.7.1 LPUSH scooter:bluetooth "command-name"
+```
+
+Available commands:
+- `advertising-start-with-whitelisting` - Start BLE advertising with whitelist filtering (only paired devices can connect)
+- `advertising-restart-no-whitelisting` - Restart advertising without whitelist restrictions (any device can connect)
+- `advertising-stop` - Stop BLE advertising completely
+- `delete-all-bonds` - Remove all paired/bonded devices from the system
+
+#### Bluetooth Event Subscriptions
+
+The Bluetooth service subscribes to several Redis channels and automatically updates the nRF52 module when values change:
+
+**Vehicle State Updates:**
+- `vehicle:state` - Vehicle operating state changes
+- `vehicle:seatbox:lock` - Seatbox lock status changes
+- `vehicle:handlebar:lock-sensor` - Handlebar lock status changes
+
+**Battery Status Updates:**
+- `battery:0:state` - Main battery 0 state changes
+- `battery:0:present` - Main battery 0 presence detection
+- `battery:0:charge` - Main battery 0 charge level
+- `battery:1:state` - Main battery 1 state changes
+- `battery:1:present` - Main battery 1 presence detection
+- `battery:1:charge` - Main battery 1 charge level
+
+**Power Management Updates:**
+- `power-manager:state` - Power state changes trigger automatic data stream management
+
+#### Bluetooth-Triggered Redis Requests
+
+The Bluetooth service can write requests to Redis when receiving commands via BLE:
+
+**Scooter Control:**
+- `scooter:state` → `unlock` / `lock` / `lock-hibernate`
+- `scooter:seatbox` → `open`
+- `scooter:blinker` → `right` / `left` / `both` / `off`
+
+**Power Management:**
+- `scooter:power` → `hibernate` / `hibernate-manual`
 
 ### Navigation System
 The navigation system uses two related hashes:
