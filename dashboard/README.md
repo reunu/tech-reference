@@ -4,6 +4,19 @@
 
 The Dashboard Controller (DBC) provides the primary user interface for the scooter, displaying critical information such as speed, battery status, and navigation. It runs a Qt/QML-based UI application that communicates with other system components via Redis.
 
+## Implementation
+
+The dashboard UI is implemented as a Qt/QML application (unu-dashboard-ui) that:
+- Runs on the DBC (Dashboard Controller)
+- Connects to Redis at 192.168.7.1:6379 in production (defaults to 127.0.0.1:6379, configurable via command-line options)
+- Subscribes to Redis pub/sub channels for real-time updates
+- Monitors vehicle state, battery status, engine ECU, GPS, and internet connectivity
+- Renders the user interface on the integrated display
+- Reads hardware serial number from `/sys/fsl_otp/HW_OCOTP_CFG0` and `/sys/fsl_otp/HW_OCOTP_CFG1`
+- Reads OS version from `/etc/os-release` and sets `system dbc-version` to VERSION_ID+BUILD_ID
+- Sets `dashboard ready true` only after successfully reading serial number
+- Stores hardware serial number in `dashboard serial-number` Redis key
+
 ## Display Modes
 
 The dashboard operates in three primary modes, controlled via the `dashboard mode` Redis key:
@@ -12,7 +25,7 @@ The dashboard operates in three primary modes, controlled via the `dashboard mod
 |------|-------------|------------|
 | speedometer | Default mode showing speed and status | Default at startup |
 | navigation | Map view with route guidance | Activated when navigation starts |
-| debug | Development diagnostics | `LPUSH scooter:dashboard-mode debug` |
+| debug | Development diagnostics | Activated by `LPUSH scooter:dashboard-mode debug` |
 
 **Note:** The navigation-related functionality is not normally accessible and will not be triggered during normal use, but there is vestigial code from an abandoned implementation by unu. Information about navigation functionality is derived from the remaining code in the binary as well as an implementation demo video uploaded by unu's development partner.
 
@@ -31,9 +44,9 @@ The debug mode provides a development and diagnostic interface that is not inten
 ### Activating Debug Mode
 
 Debug mode can be activated by:
-1. Setting the Redis key: `LPUSH scooter:dashboard-mode debug`
-2. The dashboard will switch to debug view immediately
-3. Debug data is stored in a Redis sorted set
+1. Push to the command list: `LPUSH scooter:dashboard-mode debug`
+2. The dashboard uses BLPOP to read from this list and switches to debug view
+3. The dashboard then writes the mode to `dashboard:mode` as confirmation
 
 ### Debug Data Structure
 
@@ -174,23 +187,28 @@ Theme transitions include animation timing for smooth visual changes.
 
 ### Startup Sequence
 
-1. Dashboard initializes hardware
-2. Reads serial number from hardware
-3. Sets `HSET dashboard ready true` when initialization completes
-4. Defaults to Speedometer mode
-5. Subscribes to relevant Redis channels
+1. Dashboard application starts (unu-dashboard-ui)
+2. Connects to Redis (192.168.7.1:6379 in production, defaults to 127.0.0.1:6379, configurable via `-b` and `-p` options)
+3. Subscribes to all service Redis pub/sub channels
+4. Reads OS version from `/etc/os-release` and sets `system dbc-version` to VERSION_ID+BUILD_ID
+5. Reads hardware serial number from `/sys/fsl_otp/HW_OCOTP_CFG0` and `/sys/fsl_otp/HW_OCOTP_CFG1`
+6. Sets `dashboard serial-number` to combined serial number value
+7. Sets `dashboard ready true` (only if serial number read succeeds, otherwise logs warning)
+8. Defaults to Speedometer mode
+9. Starts periodic polling timer for non-published properties
 
 ### Mode Switching Logic
 
 Mode switching occurs when:
-- Navigation is started/stopped (via `scooter:navigation` trigger)
-- Debug mode is explicitly enabled/disabled
+- Navigation is started/stopped (via `LPUSH scooter:navigation start/stop`)
+- Debug mode is explicitly enabled/disabled (via `LPUSH scooter:dashboard-mode debug`)
+- Dashboard reads mode commands from Redis lists using BLPOP with infinite timeout
 
 ### Navigation Behavior
 
 The navigation system responds to several states:
-- Navigation triggered by `scooter:navigation start` (using the Mapbox API - doesn't work anymore)
-- Navigation stopped by `scooter:navigation stop`
+- Navigation triggered by `LPUSH scooter:navigation start` (using the Mapbox API - doesn't work anymore)
+- Navigation stopped by `LPUSH scooter:navigation stop`
 - Automatic rerouting when deviating from route (doesn't seem work)
 - Trip summary displayed upon arrival (assumed from decompilation, could not trigger)
 
@@ -205,6 +223,37 @@ The dashboard displays various notification types:
 | Navigation Events | Turn instructions, arrival notices | Context-sensitive, tied to navigation state |
 | Vehicle State | Kickstand, handlebar lock, seat status | Condition-based, auto-dismissing |
 
+## Command-Line Options
+
+The dashboard UI application accepts these command-line options that affect externally observable behavior:
+
+| Option | Description |
+|--------|-------------|
+| `-b <bindaddress>` | Redis server bind address (default: 127.0.0.1) |
+| `-p <redisport>` | Redis server port (default: 6379) |
+| `--showFps` | Show FPS counter in top bar |
+| `--show-internet-details` | Show connection type and signal strength in top bar |
+| `--debug-gps` | Show GPS coordinates on screen |
+| `--screenshot <delay>` | Take screenshot after startup delay in seconds |
+| `--disable-poweroff` | Disable system poweroff during shutdown |
+
+## System Integration
+
+### Files Read
+- `/sys/fsl_otp/HW_OCOTP_CFG0` - Hardware serial number (first part, hex format)
+- `/sys/fsl_otp/HW_OCOTP_CFG1` - Hardware serial number (second part, hex format)
+- `/etc/os-release` - OS version (VERSION_ID and BUILD_ID fields)
+
+### System Commands
+- `poweroff` - Executed during shutdown sequence (can be disabled with `--disable-poweroff`)
+
+### Log Output Examples
+- `"Could not read serial number. NOT setting dashboard:ready = true"` - Serial number read failure
+- `"Could not load translations for any of the languages requested: [list]"` - Translation loading failure
+- `"Power off is disabled."` - Poweroff disabled via command-line flag
+- `"Could not power off the system!"` - Poweroff command failed
+- `"Could not set up keep-alive socket, Redis connection handling might not work properly"` - Socket setup issue
+
 ## Redis Dependencies
 
 The dashboard UI depends on these Redis services:
@@ -212,8 +261,10 @@ The dashboard UI depends on these Redis services:
 | Service | Key Pattern | Used For |
 |---------|-------------|----------|
 | vehicle | vehicle:* | Vehicle state, brake status |
-| engine-ecu | engine-ecu * | Speed, throttle, KERS status |
-| battery | battery:{0,1} * | Battery charge, status |
+| engine-ecu | engine-ecu:* | Speed, throttle, KERS status |
+| battery | battery:{0,1}:* | Battery charge, status |
 | navigation | navigation:* | Navigation status |
 | gps | gps:* | Position data for map |
 | internet | internet:* | Connection status |
+| system | system:* | Firmware versions |
+| dashboard | dashboard:* | Dashboard state and mode |

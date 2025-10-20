@@ -158,6 +158,13 @@ The system automatically enters hibernation when:
 2. The CB battery SoC is at or below 25%
 3. The main driving battery is not active
 
+### Auto-Hibernation Timer
+
+When auto-hibernation conditions are met, the system starts a 5-minute timer before entering hibernation. This gives the system time to complete any pending operations and allows the user to intervene if needed.
+
+The timer is logged by unu-bluetooth:
+- "auto-hibernation: starting 5 minutes hibernation timer"
+
 ### Timers
 
 - **Hibernation timeout**: 5 minutes
@@ -240,6 +247,16 @@ The system can wake from hibernation through:
 
 4. **Remote Activation**:
    - Requested via Bluetooth command.
+
+### Low Battery Wakeup Behavior
+
+When in hibernation Level 1 (L1), if the CB battery state of charge drops to 10% or below, the system will wake up once to send a low battery warning. This ensures the user is notified before the battery is completely depleted.
+
+**Exception**: If the CB battery is already at or below the wakeup threshold (10%) at the time of entering hibernation, the wakeup is skipped to avoid unnecessary power consumption.
+
+Logged as:
+- "CBB SoC %d%%<=%d%% in hibernation L1 -> wake up iMX for low-CBB-SoC event"
+- "CBB SoC is low at the time of hibernation -> skipping low-CBB-SoC wakeup"
 
 ### Power Source Selection Logic
 

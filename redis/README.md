@@ -135,6 +135,22 @@ hgetall power-manager
 |-------|------|-------------|----------|
 | state | string | Current power state | "suspending" |
 | wakeup-source | string | Source that woke system | "78" |
+| nrf-reset-count | integer | nRF reset counter | "2" |
+| nrf-reset-reason | hex string | nRF reset reason code | "0x00000001" |
+| hibernate-level | string | Hibernation level | "L1"/"L2" |
+
+### Power Manager Busy Services (`power-manager:busy-services`)
+```
+hgetall power-manager:busy-services
+```
+
+Stores systemd inhibitors preventing suspend. Cleared and repopulated on updates.
+
+| Field | Type | Description | Example |
+|-------|------|-------------|----------|
+| <who> <why> <what> | string | Service inhibitor | "block" or "delay" |
+
+Published to `power-manager:busy-services` channel with value "updated" when changed.
 
 ### Power Multiplexing (`power-mux`)
 ```
@@ -232,6 +248,19 @@ The Bluetooth service can write requests to Redis when receiving commands via BL
 **Power Management:**
 - `scooter:power` → `hibernate` / `hibernate-manual`
 
+### Keycard Authentication (`keycard`)
+```
+hgetall keycard
+```
+
+| Field | Type | Description | Example |
+|-------|------|-------------|----------|
+| authentication | "passed"/"failed" | Authentication result | "passed" |
+| type | string | Card type | "scooter"/"factory"/"activation" |
+| uid | string | Card UID (hex) | "04a1b2c3" |
+
+**Note**: This hash expires after 10 seconds. Authentication events are also published to the `keycard:authentication` channel.
+
 ### Navigation System
 The navigation system uses two related hashes:
 
@@ -295,3 +324,91 @@ hgetall settings
 | cloud:url | string | Cloud URL | "cloud-iot-v1.unumotors.com" |
 | cloud:key | string | Cloud key path | "/etc/keys/unu-cloud-production.pub" |
 | cloud:mqtt-url | string | MQTT server URL | "zeus-iot-v3.unumotors.com:8883" |
+
+### Event Streams
+
+#### Fault Events (`events:faults`)
+
+Stream of system fault events using XADD:
+
+```
+XREAD STREAMS events:faults 0
+```
+
+Each entry contains:
+- `group` - Component group (e.g., "cb-battery", "modem")
+- `code` - Fault code
+- `description` - Human-readable fault description
+
+## Command Channels
+
+The scooter accepts control commands via Redis list-based channels using `LPUSH`. Commands are queued and processed by the unu-vehicle service.
+
+### Scooter State Control (`scooter:state`)
+
+Controls the lock/unlock state of the scooter.
+
+```bash
+# Lock the scooter
+redis-cli -h 192.168.7.1 LPUSH scooter:state lock
+
+# Unlock the scooter
+redis-cli -h 192.168.7.1 LPUSH scooter:state unlock
+
+# Lock and request hibernation
+redis-cli -h 192.168.7.1 LPUSH scooter:state lock-hibernate
+```
+
+**Available commands**: `lock`, `unlock`, `lock-hibernate`
+
+### Seatbox Control (`scooter:seatbox`)
+
+Controls the seatbox lock mechanism.
+
+```bash
+# Open the seatbox
+redis-cli -h 192.168.7.1 LPUSH scooter:seatbox open
+```
+
+**Available commands**: `open`
+
+### Horn Control (`scooter:horn`)
+
+Controls the horn/buzzer.
+
+```bash
+# Turn horn on
+redis-cli -h 192.168.7.1 LPUSH scooter:horn on
+
+# Turn horn off
+redis-cli -h 192.168.7.1 LPUSH scooter:horn off
+```
+
+**Available commands**: `on`, `off`
+
+### Blinker Control (`scooter:blinker`)
+
+Controls the turn signals/blinkers.
+
+```bash
+# Left blinker
+redis-cli -h 192.168.7.1 LPUSH scooter:blinker left
+
+# Right blinker
+redis-cli -h 192.168.7.1 LPUSH scooter:blinker right
+
+# Hazard mode (both blinkers)
+redis-cli -h 192.168.7.1 LPUSH scooter:blinker both
+
+# Turn off blinkers
+redis-cli -h 192.168.7.1 LPUSH scooter:blinker off
+```
+
+**Available commands**: `left`, `right`, `both`, `off`
+
+### Command Channel Notes
+
+- Commands use the `LPUSH` operation to queue requests
+- The unu-vehicle service subscribes to these channels and processes commands sequentially
+- State changes resulting from commands are published to the corresponding hash fields and pub/sub channels
+- Command results can be monitored by subscribing to the relevant state hashes (e.g., `vehicle` hash for lock/unlock state)

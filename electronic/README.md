@@ -91,15 +91,27 @@
 - NT3H2111 NFC chip
 - Features:
   - 64-byte SRAM
-  - 888-byte EEPROM  
+  - 888-byte EEPROM
   - Field detection signal
   - I²C interface
 - Used for:
   - Battery authentication
+  - Battery data communication
 
 ### Keycard NFC System
+- PN7150 NFC chip
+- I2C interface (default: /dev/pn5xx_i2c2)
+- Supports ISO-DEP protocol
 - Used for:
-  - Authentication (unlocking/locking)
+  - Keycard authentication (unlocking/locking)
+
+#### Keycard Status LED Controller
+- LP5662 LED controller
+- I2C interface (default: /dev/i2c-2)
+- Controls tri-color LED status indicator:
+  - Green: Authentication success
+  - Yellow: Card detected/authenticating
+  - Red: Authentication failed/blocked card
 
 ### CAN Bus
 - Used for motor control

@@ -63,6 +63,10 @@ Detailed documentation available for:
 - [Mechanical Components](mechanical/README.md)
 - [Wiring & Connectors](wiring/README.md)
 
+## Software Services
+
+The MDB runs several system services that coordinate vehicle operations. For detailed documentation of each service, see [Services Documentation](services/README.md).
+
 ## System States
 
 The scooter operates in several power states:

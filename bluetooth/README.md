@@ -4,6 +4,14 @@
 
 The unu Scooter Pro exposes several Bluetooth LE services for control and monitoring. All services use the base UUID: `xxxx-6e67-5d0d-aab9-ad9126b66f91`
 
+## Device Information
+
+- **Device Name**: "unu Scooter"
+- **Company ID**: 0xE50A
+- **Advertising**: 1 second interval, 3 minute duration
+- **Connection Interval**: 20-75ms
+- **Security**: MITM enabled, LESC enabled, display-only pairing (6-digit PIN), bonding supported
+
 ### Control Service (9a590000)
 
 Primary control interface for scooter functions
