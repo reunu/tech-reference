@@ -313,17 +313,22 @@ hgetall ota
 hgetall settings
 ```
 
-| Field | Type | Description | Example |
-|-------|------|-------------|----------|
-| behavior:poweroff_timeout_with_battery | integer (sec) | Power off timeout with battery | "900" |
-| behavior:must_lock_handlebar | "true"/"false" | Must lock handlebar setting | "true" |
-| behavior:poweroff_timeout_without_battery | integer (sec) | Power off timeout without battery | "900" |
-| notification:timeout_seatbox_open_lock_requested | integer (sec) | Seat open timeout | "30" |
-| customer:type | string | Customer type | "D2C" |
-| cloud:mqtt-ca | string | MQTT CA certificate path | "/etc/keys/unu-mqtt-production.pub" |
-| cloud:url | string | Cloud URL | "cloud-iot-v1.unumotors.com" |
-| cloud:key | string | Cloud key path | "/etc/keys/unu-cloud-production.pub" |
-| cloud:mqtt-url | string | MQTT server URL | "zeus-iot-v3.unumotors.com:8883" |
+System-wide configuration. Set during provisioning, updated via cloud commands.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `hibernation-timer` | integer (sec) | not set (432000s = 5 days) | Auto-hibernation timeout. Counts down while locked/in stand-by. Triggers hibernation when expired. Set to 0 to disable. |
+| `behavior:poweroff_timeout_with_battery` | integer (sec) | 900 (15 min) | Dashboard remains powered this duration during shutdown when battery present. |
+| `behavior:poweroff_timeout_without_battery` | integer (sec) | 900 (15 min) | Dashboard remains powered this duration during shutdown when no battery present. |
+| `behavior:must_lock_handlebar` | "true"/"false" | "true" | **NON-FUNCTIONAL** - No observable dashboard behavior uses this setting. |
+| `notification:timeout_seatbox_open_lock_requested` | integer (sec) | 30 | **ORPHANED** - No observable system behavior references this setting. |
+| `customer:type` | string | "D2C" | Customer classification (e.g., D2C = Direct-to-Consumer). |
+| `cloud:url` | string | "cloud-iot-v1.unumotors.com" | Cloud API server hostname. |
+| `cloud:key` | string | "/etc/keys/unu-cloud-production.pub" | Public key file path for cloud API verification. |
+| `cloud:mqtt-ca` | string | "/etc/keys/unu-mqtt-production.pub" | CA certificate file path for MQTT TLS. |
+| `cloud:mqtt-url` | string | "zeus-iot-v3.unumotors.com:8883" | MQTT broker endpoint. |
+
+**Published channel:** `settings`
 
 ### Event Streams
 
