@@ -41,11 +41,9 @@ options:
 
 **Fields written:**
 - `state` - Power manager state (see States section below)
-- `nrf-reset-count` - nRF reset count (from unu-bluetooth)
-- `nrf-reset-reason` - nRF reset reason register value
-- `hibernate-level` - Hibernation level ("L1", "L2")
+- `wakeup-source` - IRQ number from `/sys/power/pm_wakeup_irq` after system resume
 
-**Published channel:** `power-manager`
+**Published channel:** `power-manager` (published on state changes)
 
 ### Hash: `settings`
 
@@ -57,15 +55,43 @@ options:
 ### Hash: `power-manager:busy-services`
 
 **Fields written:**
-- `<service-name>` - "busy" or field deleted when not busy
+- `<service-name> <reason> <what>` - Value is "block" or "delay" for active D-Bus inhibitors
+- Fields are deleted when service inhibitor is released
+- Hash is cleared and rebuilt on inhibitor list changes
 
-This hash tracks which services are blocking suspend/hibernation.
+This hash tracks D-Bus inhibitors from systemd-logind that are blocking suspend/hibernation.
 
-**Published channel:** `power-manager:busy-services`
+**Published channel:** `power-manager:busy-services` (message: "updated")
 
-### Lists consumed (BRPOP)
+### Hash: `vehicle`
 
-- `scooter:power` - Power commands ("hibernate", "hibernate-manual", "reboot")
+**Fields read:**
+- `state` - Vehicle state to detect stand-by condition for power transitions
+
+**Subscribed channel:** `vehicle`
+
+### Hash: `battery:0`
+
+**Fields read:**
+- `state` - Battery active state (affects suspend eligibility)
+
+**Subscribed channel:** `battery:0`
+
+### Lists consumed
+
+- `scooter:power` - Commands processed via BRPOP:
+  - `"run"` - Cancel low-power mode (highest priority)
+  - `"suspend"` - Request suspend
+  - `"hibernate"` - Request hibernation
+  - `"hibernate-manual"` - Request manual hibernation (user-initiated)
+  - `"hibernate-timer"` - Request timer-based hibernation
+  - `"reboot"` - Request system reboot
+
+Commands follow a priority system where `run` overrides all other modes, and manual hibernation blocks automatic hibernation.
+
+### Lists written
+
+- `scooter:modem` - Issues `LPUSH scooter:modem disable` when modem is the only remaining inhibitor blocking power transition
 
 ## Power Manager States
 
@@ -101,6 +127,34 @@ When hibernating, the nRF firmware selects between two levels based on CB batter
 
 See [nRF Power Management](../nrf/power-management.md) for details.
 
+## D-Bus Interface
+
+### Connection Details
+
+- **Bus:** System D-Bus (configurable via `--dbus_bus`)
+- **Path:** `/org/freedesktop/login1` (configurable via `--dbus_path`)
+- **Interface:** `org.freedesktop.login1.Manager` (configurable via `--dbus_interface`)
+
+The service maintains two D-Bus connections:
+- **Async connection:** Monitors signals (`PrepareForSleep`, `PrepareForShutdown`, `PropertiesChanged`)
+- **Sync connection:** Makes method calls (`Inhibit`, `ListInhibitors`, `Suspend`, `Reboot`, `PowerOff`)
+
+### Signals Monitored
+
+- `PrepareForSleep(boolean)` - Indicates suspend imminent (true) or resume completed (false)
+- `PrepareForShutdown(boolean)` - Indicates shutdown/reboot imminent (true) or canceled (false)
+- `PropertiesChanged` - Triggers inhibitor list refresh via `ListInhibitors()`
+
+### Methods Called
+
+- `Inhibit(what, name, why, mode)` - Creates inhibitor, returns file descriptor
+  - `what`: `"sleep:shutdown"` (blocks both suspend and shutdown)
+  - `mode`: `"block"` or `"delay"`
+- `ListInhibitors()` - Returns array of current system inhibitors
+- `Suspend(boolean interactive)` - Initiates system suspend
+- `PowerOff(boolean interactive)` - Powers off the system
+- `Reboot(boolean interactive)` - Reboots the system
+
 ## Configuration
 
 ### Systemd Unit
@@ -118,11 +172,11 @@ When started with `-d --debug`, the service:
 
 ### Delay Configuration
 
-- **Pre-suspend delay** (`-s`): Time after stand-by before entering imminent state
-- **Suspend imminent delay** (`-p`): Minimum duration in imminent state
-- **Inhibitor duration** (`-i`): How long system stays active after suspend request
+- **Pre-suspend delay** (`-s`, default 60s): Time after stand-by before entering imminent state
+- **Suspend imminent delay** (`-p`, default 5s): Minimum duration in imminent state
+- **Inhibitor duration** (`-i`, default 500ms): How long system stays active after suspend request
 
-These delays allow services to complete operations before power down.
+These delays allow services to complete operations before power down. The pre-suspend delay is shortened to suspend-imminent delay for RTC wakeups (IRQ 45).
 
 ### Default Low-Power Mode
 
@@ -146,11 +200,12 @@ The `-D` option sets the default power mode:
 ### Startup Sequence
 
 1. Connects to Redis
-2. Connects to D-Bus (systemd-logind)
-3. Opens Unix domain socket for inhibitor registration
-4. Reads hibernation timer from Redis (or uses `-t` value)
-5. Sets initial state to `booting`
-6. Transitions to `running` after initialization
+2. Connects to D-Bus (systemd-logind, both async and sync connections)
+3. Opens Unix domain socket (SOCK_SEQPACKET) at `/tmp/suspend_inhibitor` for inhibitor registration
+4. Enables wakeup on serial ports (`/sys/class/tty/ttymxc0/power/wakeup` and `ttymxc1`)
+5. Reads hibernation timer from Redis `settings` hash (or uses `-t` value, default 432,000s)
+6. Sets initial state to `running`
+7. Begins monitoring vehicle state, battery state, and D-Bus inhibitors
 
 ### Runtime Behavior
 
@@ -186,27 +241,41 @@ When vehicle enters `stand-by` state:
 Two types of inhibitors:
 
 **D-Bus inhibitors:**
-- Standard systemd-logind inhibitors
-- Services can call D-Bus method to block suspend
-- Automatically released when service exits
+- Standard systemd-logind inhibitors via `org.freedesktop.login1.Manager.Inhibit()`
+- Services call D-Bus method with parameters: `what`, `name`, `why`, `mode`
+- Mode can be "block" (prevents action) or "delay" (briefly delays action)
+- Automatically released when service closes file descriptor or exits
+- Monitored via `ListInhibitors()` calls triggered by `PropertiesChanged` signals
+- Some inhibitors are ignored for compatibility: `handle-lid-switch`, `handle-power-key:handle-suspend-key:handle-hibernate-key`
 
 **Unix socket inhibitors:**
-- Custom inhibitor mechanism
-- Services connect to socket and send registration message
-- Blocks suspend while connection open
+- Custom SOCK_SEQPACKET socket at `/tmp/suspend_inhibitor` (configurable via `-S`)
+- Services connect to socket to register as blocking inhibitor
+- Power manager sends acknowledgment byte (0x00) on connection
+- Blocks suspend while connection remains open
 - Automatically released when socket closes
+- Used by services that cannot use D-Bus
 
 #### Busy Services Tracking
 
-The `power-manager:busy-services` hash shows which services are blocking power transitions:
+The `power-manager:busy-services` hash shows D-Bus inhibitors blocking power transitions:
 ```
 HGETALL power-manager:busy-services
 # Example output:
-# unu-uplink = "busy"
-# unu-modem = "busy"
+# "unu-uplink Uploading logs sleep" = "block"
+# "unu-modem Waiting for network sleep:shutdown" = "delay"
 ```
 
-Services are removed from the hash when they become non-busy.
+Field format: `<service-name> <reason> <what>` → `<mode>`
+
+The hash is cleared and rebuilt whenever inhibitor status changes.
+
+#### Modem Special Handling
+
+When the modem is the only remaining inhibitor and timers have elapsed:
+- Power manager issues `LPUSH scooter:modem disable` to force modem shutdown
+- Allows system to proceed with power transition even if modem doesn't release inhibitor
+- Prevents modem from blocking shutdown indefinitely
 
 #### Ignore Services Mode
 
@@ -226,14 +295,45 @@ When started with `-I --ignore-services`:
 7. nRF enters hibernation mode
 8. System powered off
 
-### Wakeup from Hibernation
+### Wakeup from Suspend/Hibernation
 
-1. User pulls brake lever (or other wakeup source)
-2. nRF wakes up
-3. nRF powers on iMX6
-4. System boots
-5. Power manager starts in `booting` state
-6. Transitions to `running`
+1. System wakes from hardware trigger (brake lever, serial port, RTC, etc.)
+2. nRF powers on iMX6 (if hibernated) or kernel resumes (if suspended)
+3. System boots or resumes
+4. Power manager reads wakeup source from `/sys/power/pm_wakeup_irq`
+5. Publishes IRQ number to `power-manager:wakeup-source` Redis field
+6. Applies wakeup-specific delays:
+   - **IRQ 45 (RTC):** Uses short delay (suspend-imminent delay, default 5s)
+   - **Other IRQs:** Uses full pre-suspend delay (default 60s)
+7. Transitions to `running` state
+8. Monitors for next power transition trigger
+
+The RTC wakeup gets faster re-suspend to support timer-based features that wake the system temporarily.
+
+### Power Mode Priority System
+
+Commands from the `scooter:power` list follow a priority hierarchy:
+
+1. **`run`** (highest) - Cancels any pending power transition, returns to running state
+2. **`hibernate-manual`** - User-initiated hibernation, blocks automatic hibernation modes
+3. **`hibernate`** - Automatic hibernation (low battery), blocks timer hibernation
+4. **`hibernate-timer`** - Timer-based hibernation (after extended inactivity)
+5. **`suspend`** / **`reboot`** (lowest) - Can be overridden by hibernation modes
+
+When multiple commands are received, the higher-priority mode takes precedence. For example:
+- `run` command cancels all pending hibernation/suspend requests
+- `hibernate-manual` overrides automatic `hibernate` or `hibernate-timer`
+- `hibernate` overrides `hibernate-timer`
+
+This ensures user-initiated actions (run, manual hibernation) always take precedence over automatic power management.
+
+### Vehicle State Interaction
+
+Power transitions are tied to vehicle state:
+- Power transition timers start when vehicle enters `stand-by` state
+- If vehicle exits `stand-by` during transition sequence, the power transition is aborted
+- Battery state (from `battery:0` hash) also affects suspend eligibility
+- System subscribes to `vehicle` and `battery:0` channels for real-time state updates
 
 ## Log Output
 
