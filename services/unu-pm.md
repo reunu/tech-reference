@@ -45,10 +45,14 @@ options:
 - `nrf-reset-reason` - nRF reset reason register value
 - `hibernate-level` - Hibernation level ("L1", "L2")
 
-**Fields read:**
-- `hibernation-timer` - Hibernation timer duration in seconds (if set)
-
 **Published channel:** `power-manager`
+
+### Hash: `settings`
+
+**Fields read:**
+- `hibernation-timer` - Hibernation timer duration in seconds (default: 432,000 = 5 days)
+
+**Subscribed channel:** `settings` (listens for updates to apply new timer value)
 
 ### Hash: `power-manager:busy-services`
 
@@ -132,9 +136,10 @@ The `-D` option sets the default power mode:
 
 ### Hibernation Timer
 
-- **Configuration:** Via `-t` option or `power-manager hibernation-timer` Redis field
-- **Default:** Not set (no automatic timer hibernation)
-- **Purpose:** Auto-hibernate after extended inactivity (e.g., 5 days)
+- **Configuration:** Via `-t` option or `settings hibernation-timer` Redis field
+- **Default:** 5 days (432,000 seconds)
+- **Purpose:** Auto-hibernate after extended inactivity
+- **Value 0:** Disables the timer
 
 ## Observable Behavior
 
