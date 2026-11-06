@@ -1,7 +1,7 @@
 # unu Scooter Pro Battery Charger
 
 * Input: AC 220-240V
-* Output: 58.2V / 2A
+* Output: 58.2V / 5A
 
 Manufactured by QQE Technology Co. Ltd., Taiwan
 Model number QQE287-18CH03-L
